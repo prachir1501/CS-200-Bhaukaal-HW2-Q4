@@ -179,9 +179,13 @@ int i=0;
     cout<<'\n';
      node *root = buildTree(inorder, 0, i);
 
-     cout<<"Which tree traversal do you want to print \n enter 1 for inorder traversal \n enter 2 for preorder \n enter 3 for postorder \n enter 4 for zigzagorder"<<"\n";
+     cout<<"Which tree traversal do you want to print \n enter 1 for inorder traversal \n enter 2 for preorder \n enter 3 for postorder \n enter 4 for zigzagorder \n enter 0 for terminating "<<"\n";
      int which;
-     cin>>which;
+     
+     while(1)
+     {
+     	cin>>which;
+
      if(which == 1)
      {
      	cout << "Inorder traversal of the constructed tree is \n"; 
@@ -207,6 +211,12 @@ int i=0;
      	cout << "\nzigzagrder traversal of the constructed tree is \n"; 
         zizagorder(root);
         cout<<'\n' ;
+
+     }
+     else if(which == 0)
+     {
+     	break;
+     }
 
      }
 
