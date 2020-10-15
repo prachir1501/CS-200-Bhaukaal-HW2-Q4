@@ -1,10 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <stack>
+#include <stdlib.h>
 using namespace std;
-class node 
+struct node 
 { 
-    public: 
+     
     int data; 
     node* left; 
     node* right; 
@@ -21,6 +22,13 @@ int HeightOfTree(struct node *root);
 void Print_Level_Left_To_Right(struct node *root, int level);
 void Print_Level_Right_To_Left(struct node *root, int level);
 void printReverseZigZag(struct node *root);
+
+void binaryTreeToBST(node* root);
+void arrayToBST(int* arr,  node* root, int* index_ptr);
+int countNodes( node* root);
+void storeInorder(node* node, int inorder[], int* index_ptr);
+int compare(const void* a, const void* b);
+void Inordertraversal(struct node* node, int inorder[], int *index_ptr);
 
 
 
@@ -146,7 +154,7 @@ int i=0;
     cout<<'\n';
      node *root = buildTree(inorder, 0, i);
 
-     cout<<"Which tree traversal do you want to print \n enter 1 for inorder traversal \n enter 2 for preorder \n enter 3 for postorder \n enter 4 for ReverseZigZag \n enter 0 for terminating "<<"\n";
+     cout<<"Which tree traversal do you want to print \n enter 1 for inorder traversal \n enter 2 for preorder \n enter 3 for postorder \n enter 4 for ReverseZigZag \n enter 5 for binary tree to BST \n enter 0 for terminating "<<"\n";
      int which;
      
      while(1)
@@ -177,6 +185,14 @@ int i=0;
      {
      	cout << "\nReverseZigZag order traversal of the constructed tree is \n"; 
         printReverseZigZag(root);
+        cout<<'\n' ;
+
+     }
+
+     else if(which == 5)
+     {
+     	cout << "\nBST of the following binary tree is \n"; 
+        binaryTreeToBST(root);
         cout<<'\n' ;
 
      }
@@ -291,3 +307,48 @@ void printReverseZigZag(struct node *root)
     }
 }
 
+void arrayToBST (int *arr, struct node* root, int *index_ptr){
+   if (root == NULL)
+      return;
+   arrayToBST (arr, root->left, index_ptr);
+   root->data = arr[*index_ptr];
+   (*index_ptr)++;
+   arrayToBST (arr, root->right, index_ptr);
+}
+
+void binaryTreeToBST(node* root) 
+{ 
+	if (root == NULL) 
+		return; 
+
+	int n = countNodes(root);
+   int *arr = new int[n];
+   int i = 0;
+   Inordertraversal(root, arr, &i);
+   qsort(arr, n, sizeof(arr[0]), compare);
+   i = 0;
+   arrayToBST (arr, root, &i);
+   delete [] arr;
+   
+}
+
+int countNodes(struct node* root){
+   if (root == NULL)
+      return 0;
+   return countNodes (root->left) +
+   countNodes (root->right) + 1;
+}
+
+void Inordertraversal(struct node* node, int inorder[], int *index_ptr){
+   if (node == NULL)
+      return;
+   Inordertraversal(node->left, inorder, index_ptr);
+   inorder[*index_ptr] = node->data;
+   (*index_ptr)++;
+   Inordertraversal(node->right, inorder, index_ptr);
+}
+
+int compare(const void* a, const void* b) 
+{ 
+	return (*(int*)a - *(int*)b); 
+}
