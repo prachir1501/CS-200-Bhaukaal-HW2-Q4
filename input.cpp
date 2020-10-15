@@ -14,6 +14,7 @@ void printInorder (node* node) ;
 node* buildTree (int inorder[], int start, int end); 
 void printInorder (node* node) ;
 int mid (int arr[], int strt, int end) ;
+void zizagorder(struct node* root);
 
 int mid (int arr[], int strt, int end) 
 { 
@@ -54,18 +55,55 @@ node* newNode (int data)
 
     return Node; 
 } 
-void printInorder (node* node) 
+
+void zizagorder(struct node* root) 
 { 
-    if (node == NULL) 
-        return; 
-
-   printInorder (node->left); 
-
-    cout<<node->data<<" "; 
-
-    printInorder (node->right); 
+    if (!root) 
+    { 
+     return; 
+    }
+    stack<struct node*> currentlevel; 
+    stack<struct node*> nextlevel; 
+    currentlevel.push(root); 
+    bool lefttoright = true; 
+    while (!currentlevel.empty()) { 
+  
+         
+        struct node* temp = currentlevel.top(); 
+        currentlevel.pop(); 
+  
+         
+        if (temp) { 
+  
+            
+            cout << temp->data << " "; 
+  
+             
+            if (lefttoright) { 
+                if (temp->left) 
+                    nextlevel.push(temp->left); 
+                if (temp->right) 
+                    nextlevel.push(temp->right); 
+            } 
+            else { 
+                if (temp->right) 
+                    nextlevel.push(temp->right); 
+                if (temp->left) 
+                    nextlevel.push(temp->left); 
+            } 
+        } 
+  
+        if (currentlevel.empty()) { 
+            lefttoright = !lefttoright; 
+            swap(currentlevel, nextlevel); 
+        } 
+    } 
     return ;
 } 
+
+
+
+
 int main()
 {
     int data[10000];
@@ -96,6 +134,13 @@ int i=0;
      node *root = buildTree(inorder, 0, i); 
      cout << "Inorder traversal of the constructed tree is \n"; 
     printInorder(root);
+
+    
+    cout << "zigzagrder traversal of the constructed tree is \n"; 
+    zizagorder(root);
+    cout<<'\n' ;
+
+
     cout<<'\n' ;
     
 
