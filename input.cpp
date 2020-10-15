@@ -15,6 +15,8 @@ node* buildTree (int inorder[], int start, int end);
 void printInorder (node* node) ;
 void printPreorder(node* node);
 int mid (int arr[], int strt, int end) ;
+void printPostorder(node* node);
+
 
 int mid (int arr[], int strt, int end) 
 { 
@@ -67,6 +69,7 @@ void printInorder (node* node)
     printInorder (node->right); 
     return ;
 } 
+
 void printPreorder(node* node)
 {
     if (node == NULL) 
@@ -79,6 +82,23 @@ void printPreorder(node* node)
    return ;
 
 }
+
+void printPostorder(node* node)
+{
+    
+    if (node == NULL) 
+    {
+        return; 
+    }
+    
+    printPostorder (node->left); 
+    printPostorder (node->right); 
+    cout<<node->data<<" ";
+    return ;
+
+}
+   
+ 
 int main()
 {
     int data[10000];
@@ -113,6 +133,10 @@ int i=0;
     cout << "Prerder traversal of the constructed tree is \n"; 
     printPreorder(root);
     cout<<'\n' ;
+    cout << "Postrder traversal of the constructed tree is \n"; 
+    printPostorder(root);
+    cout<<'\n'; 
+
     
 
 	return 0;
