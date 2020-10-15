@@ -14,7 +14,6 @@ struct node
 node* newNode(int data); 
 void printInorder (node* node) ;
 node* buildTree (int inorder[], int start, int end); 
-void printInorder (node* node) ;
 void printPreorder(node* node);
 int mid (int arr[], int strt, int end) ;
 void printPostorder(node* node);
@@ -23,12 +22,60 @@ void Print_Level_Left_To_Right(struct node *root, int level);
 void Print_Level_Right_To_Left(struct node *root, int level);
 void printReverseZigZag(struct node *root);
 
-void binaryTreeToBST(node* root);
-void arrayToBST(int* arr,  node* root, int* index_ptr);
-int countNodes( node* root);
-void storeInorder(node* node, int inorder[], int* index_ptr);
-int compare(const void* a, const void* b);
-void Inordertraversal(struct node* node, int inorder[], int *index_ptr);
+void Inordertraversal(struct node* node, int inorder[], int *index_ptr){
+   if (node == NULL)
+      return;
+   Inordertraversal(node->left, inorder, index_ptr);
+   inorder[*index_ptr] = node->data;
+   (*index_ptr)++;
+   Inordertraversal(node->right, inorder, index_ptr);
+}
+int countNodes(struct node* root){
+   if (root == NULL)
+      return 0;
+   return countNodes (root->left) +
+   countNodes (root->right) + 1;
+}
+int compare (const void * a, const void * b){
+   return( *(int*)a - *(int*)b );
+}
+void arrayToBST (int *arr, struct node* root, int *index_ptr){
+   if (root == NULL)
+      return;
+   arrayToBST (arr, root->left, index_ptr);
+   root->data = arr[*index_ptr];
+   (*index_ptr)++;
+   arrayToBST (arr, root->right, index_ptr);
+}
+struct node* newNode (int data){
+   struct node *temp = new struct node;
+   temp->data = data;
+   temp->left = NULL;
+   temp->right = NULL;
+   return temp;
+}
+void printInorder (struct node* node){
+   if (node == NULL)
+      return;
+   printInorder (node->left);
+   printf("%d ", node->data);
+   printInorder (node->right);
+}
+
+void binaryTreeToBST(struct node* root)
+{
+    int n = countNodes(root);
+   int *arr = new int[n];
+   int i = 0;
+   Inordertraversal(root, arr, &i);
+   qsort(arr, n, sizeof(arr[0]), compare);
+   i = 0;
+   arrayToBST (arr, root, &i);
+   delete [] arr;
+   printf("\nInorder Traversal of the converted BST: \n");
+   printInorder (root);
+   return;i
+}
 
 
 
@@ -62,32 +109,21 @@ root->left = buildTree (inorder, start, i - 1);
     return root; 
 } 
 
-node* newNode (int data) 
-{ 
-    node* Node = new node(); 
-    Node->data = data; 
-    Node->left = NULL; 
-    Node->right = NULL; 
+// node* newNode (int data) 
+// { 
+//     node* Node = new node(); 
+//     Node->data = data; 
+//     Node->left = NULL; 
+//     Node->right = NULL; 
 
-    return Node; 
-} 
-
-
+//     return Node; 
+// } 
 
 
 
-void printInorder (node* node) 
-{ 
-    if (node == NULL) 
-        return; 
 
-   printInorder (node->left); 
 
-    cout<<node->data<<" "; 
 
-    printInorder (node->right); 
-    return ;
-} 
 
 void printPreorder(node* node)
 {
@@ -189,13 +225,13 @@ int i=0;
 
      }
 
-     else if(which == 5)
-     {
-     	cout << "\nBST of the following binary tree is \n"; 
-        binaryTreeToBST(root);
-        cout<<'\n' ;
+    //  else if(which == 5)
+    //  {
+    //  	cout << "\nBST of the following binary tree is \n"; 
+    //     binaryTreeToBST(root);
+    //     cout<<'\n' ;
 
-     }
+    //  }
      else if(which == 0)
      {
      	break;
@@ -305,50 +341,4 @@ void printReverseZigZag(struct node *root)
             flag = 1;
         }
     }
-}
-
-void arrayToBST (int *arr, struct node* root, int *index_ptr){
-   if (root == NULL)
-      return;
-   arrayToBST (arr, root->left, index_ptr);
-   root->data = arr[*index_ptr];
-   (*index_ptr)++;
-   arrayToBST (arr, root->right, index_ptr);
-}
-
-void binaryTreeToBST(node* root) 
-{ 
-	if (root == NULL) 
-		return; 
-
-	int n = countNodes(root);
-   int *arr = new int[n];
-   int i = 0;
-   Inordertraversal(root, arr, &i);
-   qsort(arr, n, sizeof(arr[0]), compare);
-   i = 0;
-   arrayToBST (arr, root, &i);
-   delete [] arr;
-   
-}
-
-int countNodes(struct node* root){
-   if (root == NULL)
-      return 0;
-   return countNodes (root->left) +
-   countNodes (root->right) + 1;
-}
-
-void Inordertraversal(struct node* node, int inorder[], int *index_ptr){
-   if (node == NULL)
-      return;
-   Inordertraversal(node->left, inorder, index_ptr);
-   inorder[*index_ptr] = node->data;
-   (*index_ptr)++;
-   Inordertraversal(node->right, inorder, index_ptr);
-}
-
-int compare(const void* a, const void* b) 
-{ 
-	return (*(int*)a - *(int*)b); 
 }
