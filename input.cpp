@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <stack>
 using namespace std;
 class node 
 { 
@@ -176,23 +177,58 @@ int i=0;
         inorder[j]=data[j];
     }
     cout<<'\n';
-     node *root = buildTree(inorder, 0, i); 
-     cout << "Inorder traversal of the constructed tree is \n"; 
-    printInorder(root);
+     node *root = buildTree(inorder, 0, i);
+
+     cout<<"Which tree traversal do you want to print \n enter 1 for inorder traversal \n enter 2 for preorder \n enter 3 for postorder \n enter 4 for zigzagorder"<<"\n";
+     int which;
+     cin>>which;
+     if(which == 1)
+     {
+     	cout << "Inorder traversal of the constructed tree is \n"; 
+        printInorder(root);
+        cout<<"\n";
+     }
+     else if(which == 2)
+     {
+     	cout << "Preorder traversal of the constructed tree is \n"; 
+       printPreorder(root);
+       cout<<'\n' ;
+
+     }
+     else if(which == 3)
+     {
+     	cout << "Postorder traversal of the constructed tree is \n"; 
+       printPostorder(root);
+       cout<<'\n'; 
+
+     }
+     else if(which == 4)
+     {
+     	cout << "\nzigzagrder traversal of the constructed tree is \n"; 
+        zizagorder(root);
+        cout<<'\n' ;
+
+     }
+
+
+
+
+    //  cout << "Inorder traversal of the constructed tree is \n"; 
+    // printInorder(root);
 
     
-    cout << "\nzigzagrder traversal of the constructed tree is \n"; 
-    zizagorder(root);
-    cout<<'\n' ;
+    // cout << "\nzigzagrder traversal of the constructed tree is \n"; 
+    // zizagorder(root);
+    // cout<<'\n' ;
 
 
-    cout<<'\n' ;
-    cout << "Prerder traversal of the constructed tree is \n"; 
-    printPreorder(root);
-    cout<<'\n' ;
-    cout << "Postrder traversal of the constructed tree is \n"; 
-    printPostorder(root);
-    cout<<'\n'; 
+    // cout<<'\n' ;
+    // cout << "Prerder traversal of the constructed tree is \n"; 
+    // printPreorder(root);
+    // cout<<'\n' ;
+    // cout << "Postrder traversal of the constructed tree is \n"; 
+    // printPostorder(root);
+    // cout<<'\n'; 
 
     
 
