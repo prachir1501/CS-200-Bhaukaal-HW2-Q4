@@ -68,24 +68,9 @@ void printInorder (node* node)
 
     printInorder (node->right); 
     return ;
-} 
-
-void printPreorder(node* node)
-{
-    if (node == NULL) 
-    {
-        return; 
-    }
-   cout<<node->data<<" "; 
-   printPreorder (node->left); 
-   printPreorder (node->right); 
-   return ;
-
 }
-
 void printPostorder(node* node)
 {
-    
     if (node == NULL) 
     {
         return; 
@@ -98,6 +83,8 @@ void printPostorder(node* node)
 
 }
    
+  
+
  
 int main()
 {
