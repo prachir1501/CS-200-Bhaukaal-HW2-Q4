@@ -74,7 +74,7 @@ void binaryTreeToBST(struct node* root)
    delete [] arr;
    printf("\nInorder Traversal of the converted BST: \n");
    printInorder (root);
-   return;i
+   return ;
 }
 
 
@@ -225,13 +225,13 @@ int i=0;
 
      }
 
-    //  else if(which == 5)
-    //  {
-    //  	cout << "\nBST of the following binary tree is \n"; 
-    //     binaryTreeToBST(root);
-    //     cout<<'\n' ;
+     else if(which == 5)
+     {
+     	cout << "\nBST of the following binary tree is \n"; 
+        binaryTreeToBST(root);
+        cout<<'\n' ;
 
-    //  }
+     }
      else if(which == 0)
      {
      	break;
