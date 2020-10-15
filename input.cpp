@@ -120,6 +120,8 @@ void printInorder (node* node)
     return ;
 } 
 
+
+
 void printPreorder(node* node)
 {
     if (node == NULL) 
@@ -183,6 +185,11 @@ int i=0;
     
     cout << "\nzigzagrder traversal of the constructed tree is \n"; 
     zizagorder(root);
+    cout << "zigzagrder traversal of the constructed tree is \n"; 
+    zizagorder(root);
+    cout<<'\n' ;
+
+
     cout<<'\n' ;
 
 
