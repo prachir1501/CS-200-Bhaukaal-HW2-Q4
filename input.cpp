@@ -17,8 +17,12 @@ void printInorder (node* node) ;
 void printPreorder(node* node);
 int mid (int arr[], int strt, int end) ;
 void printPostorder(node* node);
+int HeightOfTree(struct node *root);
+void Print_Level_Left_To_Right(struct node *root, int level);
+void Print_Level_Right_To_Left(struct node *root, int level);
+void printReverseZigZag(struct node *root);
 
-void zizagorder(struct node* root);
+
 
 int mid (int arr[], int strt, int end) 
 { 
@@ -60,50 +64,6 @@ node* newNode (int data)
     return Node; 
 } 
 
-void zizagorder(struct node* root) 
-{ 
-    if (!root) 
-    { 
-     return; 
-    }
-    stack<struct node*> currentlevel; 
-    stack<struct node*> nextlevel; 
-    currentlevel.push(root); 
-    bool lefttoright = true; 
-    while (!currentlevel.empty()) { 
-  
-         
-        struct node* temp = currentlevel.top(); 
-        currentlevel.pop(); 
-  
-         
-        if (temp) { 
-  
-            
-            cout << temp->data << " "; 
-  
-             
-            if (lefttoright) { 
-                if (temp->left) 
-                    nextlevel.push(temp->left); 
-                if (temp->right) 
-                    nextlevel.push(temp->right); 
-            } 
-            else { 
-                if (temp->right) 
-                    nextlevel.push(temp->right); 
-                if (temp->left) 
-                    nextlevel.push(temp->left); 
-            } 
-        } 
-  
-        if (currentlevel.empty()) { 
-            lefttoright = !lefttoright; 
-            swap(currentlevel, nextlevel); 
-        } 
-    } 
-    return ;
-} 
 
 
 
@@ -148,6 +108,13 @@ void printPostorder(node* node)
     return ;
 
 }
+
+
+
+
+
+
+
    
  
 int main()
@@ -179,7 +146,7 @@ int i=0;
     cout<<'\n';
      node *root = buildTree(inorder, 0, i);
 
-     cout<<"Which tree traversal do you want to print \n enter 1 for inorder traversal \n enter 2 for preorder \n enter 3 for postorder \n enter 4 for zigzagorder \n enter 0 for terminating "<<"\n";
+     cout<<"Which tree traversal do you want to print \n enter 1 for inorder traversal \n enter 2 for preorder \n enter 3 for postorder \n enter 4 for ReverseZigZag \n enter 0 for terminating "<<"\n";
      int which;
      
      while(1)
@@ -208,8 +175,8 @@ int i=0;
      }
      else if(which == 4)
      {
-     	cout << "\nzigzagrder traversal of the constructed tree is \n"; 
-        zizagorder(root);
+     	cout << "\nReverseZigZag order traversal of the constructed tree is \n"; 
+        printReverseZigZag(root);
         cout<<'\n' ;
 
      }
@@ -244,3 +211,83 @@ int i=0;
 
 	return 0;
 }
+
+
+void Print_Level_Left_To_Right(struct node *root, int level)
+{
+    if (root == NULL)
+        return;
+
+    if (level == 1)
+        cout << root->data << " ";
+
+    else if (level > 1)
+    {
+        Print_Level_Left_To_Right(root->left, level - 1);
+        Print_Level_Left_To_Right(root->right, level - 1);
+    }
+}
+void Print_Level_Right_To_Left(struct node *root, int level)
+{
+    if (root == NULL)
+        return;
+
+    if (level == 1)
+        cout << root->data << " ";
+
+    else if (level > 1)
+    {
+        Print_Level_Right_To_Left(root->right, level - 1);
+        Print_Level_Right_To_Left(root->left, level - 1);
+    }
+}
+
+int HeightOfTree(struct node *root)
+{
+    if (root == NULL)
+        return 0;
+
+    // Compute the height of each subtree
+    int lheight = HeightOfTree(root->left);
+    int rheight = HeightOfTree(root->right);
+
+    // Return the maximum of two
+    return max(lheight + 1, rheight + 1);
+}
+
+void printReverseZigZag(struct node *root)
+{
+    // Flag is used to mark the change
+    // in level
+    int flag = 1;
+
+    // Height of tree
+    int height = HeightOfTree(root);
+
+    for (int i = height; i >= 1; i--)
+    {
+
+        // If flag value is one print nodes
+        // from right to left
+        if (flag == 1)
+        {
+            Print_Level_Right_To_Left(root, i);
+
+            // Mark flag as zero so that next time
+            // tree is traversed from left to right
+            flag = 0;
+        }
+
+        // If flag is zero print nodes
+        // from left to right
+        else if (flag == 0)
+        {
+            Print_Level_Left_To_Right(root, i);
+
+            // Mark flag as one so that next time
+            // nodes are printed from right to left
+            flag = 1;
+        }
+    }
+}
+
